@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import random
 from keras.preprocessing.image import ImageDataGenerator
 
-raw_folder = "data/"
+raw_folder = "E:/Python/MiAI_Money_Classify/data/"
 def save_data(raw_folder=raw_folder):
 
     dest_size = (128, 128)
@@ -74,15 +74,15 @@ print(y_train.shape)
 def get_model():
     model_vgg16_conv = VGG16(weights='imagenet', include_top=False)
 
-    # Dong bang cac layer
+    # Đóng băng các layers
     for layer in model_vgg16_conv.layers:
         layer.trainable = False
 
-    # Tao model
+    # Tạo model với input là ảnh, lấy output của VGG16 và làm input của các layers FC thêm vào
     input = Input(shape=(128, 128, 3), name='image_input')
     output_vgg16_conv = model_vgg16_conv(input)
 
-    # Them cac layer FC va Dropout
+    # Thêm vào các FC layers 
     x = Flatten(name='flatten')(output_vgg16_conv)
     x = Dense(4096, activation='relu', name='fc1')(x)
     x = Dropout(0.5)(x)
